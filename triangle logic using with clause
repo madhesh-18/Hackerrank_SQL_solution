@@ -1,0 +1,8 @@
+#triangle logic using with clause
+
+select (case when a+b>c and b+c>a and c+a>b then logicequ else 'Not A Triangle' end)
+from TRIANGLES 
+
+
+with logicequ as select (case when a=b and b=c then 'Equilateral' else logicsca end)
+with logicsca as select (case when a!=b and b!=c and c!=a then 'Scalene' else 'Isosceles' end)
