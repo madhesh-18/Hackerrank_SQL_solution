@@ -1,0 +1,35 @@
+/*Method 1
+
+select c.company_code, c.founder,
+       count(distinct l.lead_manager_code),
+       count(distinct s.senior_manager_code),
+       count(distinct m.manager_code),
+       count(distinct e.employee_code)
+from Company as c 
+join Lead_Manager as l 
+on c.company_code = l.company_code
+join Senior_Manager as s
+on l.lead_manager_code = s.lead_manager_code
+join Manager as m 
+on m.senior_manager_code = s.senior_manager_code
+join Employee as e
+on e.manager_code = m.manager_code
+group by c.company_code, c.founder
+order by c.company_code;
+*/
+
+
+/*Method 2 --> I think some logical fallocy in this 
+
+SELECT c.Company_Code, c.founder, count(Distinct e.Lead_Manager_Code), 
+count(distinct e.Senior_Manager_Code), count(distinct e.Manager_Code), 
+count(distinct e.employee_Code) FROM Company c 
+JOIN Employee e ON c.Company_Code = e.Company_Code GROUP BY c.Company_Code, c.Founder ORDER BY c.COMpany_Code;
+
+/*Method 3
+
+select c.company_code, c.founder, count(distinct lm.lead_manager_code), count(distinct sm.senior_manager_code), count(distinct m.manager_code), count(distinct e.employee_code) from Company c, Lead_Manager lm, Senior_Manager sm, Manager m, Employee e
+where c.company_code = lm.company_code and lm.lead_manager_code = sm.lead_manager_code and sm.senior_manager_code = m.senior_manager_code and m.manager_code = e.manager_code group by c.company_code, c.founder
+order by c.company_code
+
+*/
