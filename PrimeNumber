@@ -1,0 +1,16 @@
+select group_concat(numb separator '&')
+from
+(select @num:=@num+1 as numb from
+     information_schema.tables t1,
+     information_schema.tables t2,
+     (select @num:=1) tmp
+) tempNum
+where numb<=1000 and not exists (select * from
+     (select @nu:=@nu+1 as numa from
+     information_schema.tables t1,
+     information_schema.tables t2,
+     (select @nu:=0) tmp2
+     limit 1000
+) tempNum2
+where floor(numb/numa) = (numb/numa) and numa<numb and numa>1
+);
