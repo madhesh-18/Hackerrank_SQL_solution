@@ -1,0 +1,8 @@
+with enumerate as (
+select x, y, row_number() over(order by x, y) as rn from functions 
+)
+
+select distinct e1.x, e1.y from enumerate e1 join enumerate e2
+on e1.x=e2.y and e2.x=e1.y and e1.rn<>e2.rn
+where e1.x<=e1.y
+order by x, y;
