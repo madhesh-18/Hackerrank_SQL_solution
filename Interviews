@@ -1,0 +1,31 @@
+with total_submit as (select coll.contest_id, 
+       sum(ss.total_submissions) as column_3
+       sum(ss.total_accepted_submissions) as column_4 
+from Colleges coll 
+inner join Challenges chall on coll.contest_id = chall.contest_id
+innerjoin Submission_stats ss on chall.challenge_id = ss.challenge_id
+group by coll.contest_id
+), 
+total as (
+
+select coll.contest_id, 
+       sum(vs.total_views) as column_5
+       sum(vs.total_unique_views) as column_6
+from Colleges coll 
+inner join Challenges chall on coll.college_id = chall.college_id
+innerjoin view_stats vs on Chall.challenge_id = vs.challenge_id
+group by coll.contest_id
+)
+
+select cont.contest_id, 
+       cont.hacker_id, 
+       cont.name, 
+       ts.column_3, 
+       ts.column_4,
+       tv.column_5,
+       tv.column_6
+from Contests cont 
+inner join total_submit ts on cont.contest_id = ts.contest_id 
+inner join total tv on cont.contest_id = tv.contest_id
+having sum(ts.column_3, ts.column_4,tv.column_5,tv.column_6)>0
+order by cont.contest_id;
